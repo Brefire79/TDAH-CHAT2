@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a4fa3">
+  <title>Rotina Calma</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="brand" aria-label="Nome do aplicativo">Rotina Calma</div>
+    <button class="btn ghost" id="btn-accessibility" aria-pressed="false">Alto contraste</button>
+  </header>
+
+  <main id="app" aria-live="polite">
+    <section class="card" aria-label="Perfil da crianca">
+      <header class="card__header">
+        <div class="avatar" aria-hidden="true" id="avatar-display">🙂</div>
+        <div>
+          <h1 id="child-name">Olá!</h1>
+          <p id="child-age" class="muted">Defina seu perfil</p>
+        </div>
+      </header>
+      <form id="profile-form" class="stack" autocomplete="off">
+        <label class="field">
+          <span>Nome</span>
+          <input id="name-input" name="name" type="text" maxlength="20" aria-describedby="name-help">
+          <small id="name-help" class="muted">Mostramos apenas no app</small>
+        </label>
+        <label class="field">
+          <span>Idade</span>
+          <input id="age-input" name="age" type="number" min="8" max="14" inputmode="numeric">
+        </label>
+        <label class="field">
+          <span>Avatar</span>
+          <div class="avatars" role="radiogroup" aria-label="Escolha um avatar">
+            <button type="button" class="avatar-option" data-avatar="🙂" aria-pressed="true">🙂</button>
+            <button type="button" class="avatar-option" data-avatar="😺" aria-pressed="false">😺</button>
+            <button type="button" class="avatar-option" data-avatar="🐧" aria-pressed="false">🐧</button>
+            <button type="button" class="avatar-option" data-avatar="🌟" aria-pressed="false">🌟</button>
+          </div>
+        </label>
+        <label class="field">
+          <span>Preferencias</span>
+          <div class="toggles">
+            <label class="toggle"><input type="checkbox" id="sound-toggle"> Som ligado</label>
+            <label class="toggle"><input type="checkbox" id="contrast-toggle"> Alto contraste</label>
+          </div>
+        </label>
+        <button class="btn primary" type="submit">Salvar perfil</button>
+      </form>
+    </section>
+
+    <section class="card" aria-label="Rotina diaria">
+      <header class="card__header">
+        <div>
+          <h2>Rotina do dia</h2>
+          <p class="muted">Manha, tarde e noite</p>
+        </div>
+        <button class="btn ghost" id="btn-add-task">Adicionar tarefa</button>
+      </header>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-slot="morning" aria-selected="true">Manha</button>
+        <button class="tab" data-slot="afternoon" aria-selected="false">Tarde</button>
+        <button class="tab" data-slot="night" aria-selected="false">Noite</button>
+      </div>
+      <div id="task-list" class="stack" aria-live="polite"></div>
+    </section>
+
+    <section class="card" aria-label="Modo foco">
+      <header class="card__header">
+        <div>
+          <h2>Modo foco</h2>
+          <p class="muted">Escolha um tempo curto</p>
+        </div>
+      </header>
+      <div class="focus-controls">
+        <div class="chips" role="group" aria-label="Duracao do foco">
+          <button class="chip" data-minutes="10">10 min</button>
+          <button class="chip" data-minutes="15">15 min</button>
+          <button class="chip" data-minutes="20">20 min</button>
+        </div>
+        <button class="btn primary" id="btn-start-focus">Comecar</button>
+        <div class="timer" aria-live="polite" id="focus-timer">00:00</div>
+        <div class="calm-animation" aria-hidden="true" id="calm-animation"></div>
+        <p class="muted" id="focus-status">Pronto para focar.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Recompensas e progresso">
+      <header class="card__header">
+        <div>
+          <h2>Progresso</h2>
+          <p class="muted">Ganhe estrelas por concluir</p>
+        </div>
+      </header>
+      <div class="progress">
+        <div class="stat">
+          <div class="stat__value" id="points">0</div>
+          <div class="stat__label">Estrelas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value" id="streak">0</div>
+          <div class="stat__label">Dias seguidos</div>
+        </div>
+      </div>
+      <div class="badges" id="badges" aria-live="polite"></div>
+    </section>
+
+    <section class="card" aria-label="Como estou me sentindo">
+      <header class="card__header">
+        <div>
+          <h2>Como estou?</h2>
+          <p class="muted">Escolha um emoji</p>
+        </div>
+      </header>
+      <div class="chips" role="group" aria-label="Estado emocional">
+        <button class="chip" data-mood="ok">🙂</button>
+        <button class="chip" data-mood="neutral">😐</button>
+        <button class="chip" data-mood="sad">😞</button>
+        <button class="chip" data-mood="angry">😠</button>
+      </div>
+      <p id="mood-tip" class="muted">Diga como se sente.</p>
+    </section>
+
+    <section class="card" aria-label="Painel dos pais">
+      <header class="card__header">
+        <div>
+          <h2>Painel dos pais</h2>
+          <p class="muted">Acesso protegido</p>
+        </div>
+        <button class="btn ghost" id="btn-parent-toggle" aria-pressed="false">Mostrar</button>
+      </header>
+      <div id="parent-panel" hidden>
+        <form class="stack" id="parent-form">
+          <label class="field">
+            <span>Senha rapida (4 digitos)</span>
+            <input type="password" inputmode="numeric" minlength="4" maxlength="4" id="parent-pin">
+          </label>
+          <label class="field">
+            <span>Ativar recompensas</span>
+            <label class="toggle"><input type="checkbox" id="parent-rewards" checked> Recompensas ligadas</label>
+          </label>
+          <label class="field">
+            <span>Ativar modo foco</span>
+            <label class="toggle"><input type="checkbox" id="parent-focus" checked> Modo foco ligado</label>
+          </label>
+          <label class="field">
+            <span>Mensagem diaria</span>
+            <input type="text" id="parent-note" maxlength="60" placeholder="Frase curta de incentivo">
+          </label>
+          <button class="btn primary" type="submit">Salvar ajustes</button>
+        </form>
+        <div class="parent-data" id="parent-data"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
