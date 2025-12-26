@@ -9,6 +9,7 @@
   --shadow: 0 8px 24px rgba(10, 79, 163, 0.08);
   --radius: 16px;
   --font: "Segoe UI", "Helvetica Neue", sans-serif;
+  --focus: 2px solid #0a4fa3;
 }
 
 body[data-contrast="high"] {
@@ -29,9 +30,12 @@ body {
   color: var(--text);
   line-height: 1.5;
 }
+body[data-font-size="large"] { font-size: 18px; }
+body:focus-visible { outline: none; }
 
 img { max-width: 100%; display: block; }
 button, input { font-family: inherit; }
+button:focus-visible, input:focus-visible { outline: var(--focus); outline-offset: 3px; }
 
 .topbar {
   display: flex;
@@ -45,6 +49,7 @@ button, input { font-family: inherit; }
   z-index: 10;
 }
 .brand { font-weight: 700; letter-spacing: 0.5px; }
+.topbar__actions { display: flex; gap: 8px; align-items: center; }
 
 main {
   padding: 16px;
@@ -90,6 +95,8 @@ main {
 .btn:active { transform: translateY(1px); }
 .btn.primary { background: var(--accent); color: #fff; box-shadow: var(--shadow); }
 .btn.ghost { background: transparent; color: inherit; border: 1px solid var(--accent-soft); }
+.btn.primary-strong { font-size: 1rem; padding: 14px 18px; box-shadow: 0 10px 24px rgba(10, 79, 163, 0.18); }
+.btn:focus-visible { box-shadow: 0 0 0 3px rgba(10, 79, 163, 0.28); }
 
 .avatar {
   width: 52px;
@@ -128,6 +135,7 @@ main {
   font-weight: 700;
 }
 .tab.active { background: var(--accent); color: #fff; }
+.tab:focus-visible { box-shadow: 0 0 0 3px rgba(10, 79, 163, 0.28); }
 
 .task {
   display: grid;
@@ -139,6 +147,7 @@ main {
   border-radius: 12px;
   background: #fff;
 }
+.task.is-done { opacity: 0.7; }
 .task__meta { display: flex; gap: 8px; align-items: center; }
 .task__icon { font-size: 22px; }
 .task__name { font-weight: 700; }
@@ -155,6 +164,8 @@ main {
   font-weight: 700;
 }
 .chip.active { background: var(--accent); color: #fff; }
+.chip:focus-visible { box-shadow: 0 0 0 3px rgba(10, 79, 163, 0.28); }
+.chip.mood { font-size: 26px; height: 48px; min-width: 48px; }
 
 .focus-controls { display: grid; gap: 12px; }
 .timer {
@@ -209,6 +220,33 @@ main {
 
 .parent-data { margin-top: 8px; color: var(--muted); font-size: 0.95rem; }
 
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 28, 63, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 20;
+}
+.onboarding__card {
+  background: var(--card);
+  color: var(--text);
+  border-radius: 18px;
+  padding: 20px;
+  width: min(420px, 100%);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 12px;
+}
+.onboarding__steps { display: flex; gap: 8px; align-items: center; }
+.dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent-soft);
+}
+.dot--active { background: var(--accent); }
+.onboarding__actions { display: flex; justify-content: space-between; gap: 8px; }
 @media (min-width: 768px) {
   main { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
   .card { padding: 18px; }

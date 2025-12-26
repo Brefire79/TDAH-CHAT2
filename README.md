@@ -1,42 +1,42 @@
-# Rotina Calma — PWA MVP
+# Rotina Calma — PWA
 
-Aplicativo PWA simples para crianças (10–12) com TDAH leve, focado em rotina, foco e autonomia. Interface calma, textos curtos, poucos estímulos e feedback suave. Offline-first com service worker.
+PWA leve para crianças (10–12) com TDAH leve, focado em rotina, foco e autonomia. Interface calma, textos curtos, poucos estímulos e feedback positivo. Offline-first com service worker.
 
 ## Funcionalidades
-- Perfil: nome, idade, avatar, preferências de som/contraste.
+- Perfil: nome, idade, avatar, som/contraste/fonte grande.
 - Rotina visual: manhã/tarde/noite, tarefas com ícone, tempo, começar/concluir.
-- Modo foco: timer curto (10/15/20 min), animação calma, mensagem positiva.
+- Modo foco: timer curto (10/15/20 min) com feedback calmo.
 - Recompensas: estrelas, streak diária e medalhas simples.
-- Regulação emocional: check-in rápido com emojis e dicas curtas.
-- Painel dos pais: PIN, ajustes de recompensas/foco, mensagem do dia.
-- Acessibilidade: fonte grande, contraste opcional, suporte a leitores de tela, animações suaves.
+- Regulação emocional: emojis grandes e uma dica por vez.
+- Painel dos pais: PIN, toggles de recompensas/foco, mensagem do dia.
+- Acessibilidade: foco visível, fonte configurável, contraste opcional, navegação por teclado.
+- Onboarding de 3 passos no primeiro uso (salva flag em localStorage).
 
 ## Rodando localmente
-1. Clonar: `git clone https://github.com/Brefire79/TDAH-CHAT2.git`
-2. Entrar na pasta: `cd TDAH-CHAT2`
-3. Servir estaticamente (exemplos):
+1. `git clone https://github.com/Brefire79/TDAH-CHAT2.git`
+2. `cd TDAH-CHAT2`
+3. Servir estaticamente (necessário para ES Modules):
    - `npx serve .` **ou**
    - `python -m http.server 8000`
-4. Abrir no navegador: http://localhost:8000
+4. Abrir http://localhost:8000
 5. Instalar como PWA (Add to Home Screen) e testar offline.
 
 ## Estrutura
-- index.html — layout principal e seções.
-- style.css — tema azul/branco/amarelo, mobile-first, contraste opcional.
-- app.js — estado local, rotina, foco, recompensas, humor, painel pais, storage.
+- index.html — layout, onboarding, binds de aria.
+- style.css — tema azul/branco/amarelo, foco visível, fonte grande.
+- src/
+  - app.js — orquestra módulos, onboarding, preferências, painel pais.
+  - storage.js — persistência local e flags.
+  - routine.js — rotina visual (máx 3 ações: nova, começar, concluir).
+  - focus.js — timer curto com feedback calmo.
+  - rewards.js — estrelas, streak, medalhas leves.
+  - emotions.js — check-in emocional com dica única.
 - manifest.json — metadados PWA.
-- service-worker.js — cache estático para modo offline.
+- service-worker.js — cache versionado (cache-first assets, network-first dados).
 - icons/ — ícones SVG 192/512.
 
-## Próximos upgrades sugeridos
-- Onboarding animado em 3 passos (leve, skippable).
-- Flag escolar com rotinas pré-carregadas e travas infantis.
-- Relatórios em PDF para responsáveis.
-- Voz suave (TTS) opcional para feedback.
-- Versão institucional (multi-perfis/turmas, políticas de privacidade claras).
-
 ## Princípios
-- Menos é mais: poucos botões por tela, textos curtos.
-- Inclusivo: alto contraste opcional, foco visível, sem publicidade.
+- Menos é mais: uma ação principal por seção, textos curtos.
+- Inclusivo: contraste opcional, fonte ajustável, foco claro, sem anúncios.
 - Sem dados sensíveis: armazenamento local apenas.
-- Sem competitividade: progresso pessoal, medalhas leves.
+- Progresso pessoal: recompensas leves, sem competitividade.

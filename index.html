@@ -8,11 +8,30 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-font-size="normal">
   <header class="topbar" role="banner">
     <div class="brand" aria-label="Nome do aplicativo">Rotina Calma</div>
-    <button class="btn ghost" id="btn-accessibility" aria-pressed="false">Alto contraste</button>
+    <div class="topbar__actions">
+      <button class="btn ghost" id="btn-font" aria-pressed="false" aria-label="Alternar fonte grande">Fonte A+</button>
+      <button class="btn ghost" id="btn-accessibility" aria-pressed="false" aria-label="Alternar alto contraste">Contraste</button>
+    </div>
   </header>
+
+  <section id="onboarding" class="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" hidden>
+    <div class="onboarding__card">
+      <h2 id="onboarding-title">Bem-vindo</h2>
+      <p id="onboarding-text" class="muted">Vamos mostrar rapidinho como usar.</p>
+      <div class="onboarding__steps" aria-label="Passos do onboarding">
+        <span class="dot" data-step="0" aria-hidden="true"></span>
+        <span class="dot" data-step="1" aria-hidden="true"></span>
+        <span class="dot" data-step="2" aria-hidden="true"></span>
+      </div>
+      <div class="onboarding__actions">
+        <button class="btn ghost" id="onboarding-skip" type="button" aria-label="Pular onboarding">Pular</button>
+        <button class="btn primary" id="onboarding-next" type="button" aria-label="Avancar">Avancar</button>
+      </div>
+    </div>
+  </section>
 
   <main id="app" aria-live="polite">
     <section class="card" aria-label="Perfil da crianca">
@@ -45,21 +64,22 @@
         <label class="field">
           <span>Preferencias</span>
           <div class="toggles">
-            <label class="toggle"><input type="checkbox" id="sound-toggle"> Som ligado</label>
+            <label class="toggle"><input type="checkbox" id="sound-toggle"> Som suave</label>
             <label class="toggle"><input type="checkbox" id="contrast-toggle"> Alto contraste</label>
+            <label class="toggle"><input type="checkbox" id="font-toggle"> Fonte grande</label>
           </div>
         </label>
-        <button class="btn primary" type="submit">Salvar perfil</button>
+        <button class="btn primary" type="submit" aria-label="Salvar perfil">Salvar</button>
       </form>
     </section>
 
     <section class="card" aria-label="Rotina diaria">
       <header class="card__header">
         <div>
-          <h2>Rotina do dia</h2>
-          <p class="muted">Manha, tarde e noite</p>
+          <h2>Rotina de hoje</h2>
+          <p class="muted">Três momentos do dia</p>
         </div>
-        <button class="btn ghost" id="btn-add-task">Adicionar tarefa</button>
+        <button class="btn ghost" id="btn-add-task" aria-label="Adicionar tarefa">Nova tarefa</button>
       </header>
       <div class="tabs" role="tablist">
         <button class="tab active" data-slot="morning" aria-selected="true">Manha</button>
@@ -73,7 +93,7 @@
       <header class="card__header">
         <div>
           <h2>Modo foco</h2>
-          <p class="muted">Escolha um tempo curto</p>
+          <p class="muted">Um tempo por vez</p>
         </div>
       </header>
       <div class="focus-controls">
@@ -82,7 +102,7 @@
           <button class="chip" data-minutes="15">15 min</button>
           <button class="chip" data-minutes="20">20 min</button>
         </div>
-        <button class="btn primary" id="btn-start-focus">Comecar</button>
+        <button class="btn primary primary-strong" id="btn-start-focus" aria-label="Iniciar foco">Comecar</button>
         <div class="timer" aria-live="polite" id="focus-timer">00:00</div>
         <div class="calm-animation" aria-hidden="true" id="calm-animation"></div>
         <p class="muted" id="focus-status">Pronto para focar.</p>
@@ -93,7 +113,7 @@
       <header class="card__header">
         <div>
           <h2>Progresso</h2>
-          <p class="muted">Ganhe estrelas por concluir</p>
+          <p class="muted">Avanco tranquilo</p>
         </div>
       </header>
       <div class="progress">
@@ -117,10 +137,10 @@
         </div>
       </header>
       <div class="chips" role="group" aria-label="Estado emocional">
-        <button class="chip" data-mood="ok">🙂</button>
-        <button class="chip" data-mood="neutral">😐</button>
-        <button class="chip" data-mood="sad">😞</button>
-        <button class="chip" data-mood="angry">😠</button>
+        <button class="chip mood" data-mood="ok" aria-label="Estou bem">🙂</button>
+        <button class="chip mood" data-mood="neutral" aria-label="Estou neutro">😐</button>
+        <button class="chip mood" data-mood="sad" aria-label="Estou triste">😞</button>
+        <button class="chip mood" data-mood="angry" aria-label="Estou bravo">😠</button>
       </div>
       <p id="mood-tip" class="muted">Diga como se sente.</p>
     </section>
@@ -160,6 +180,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="app.js"></script>
+  <script type="module" src="./src/app.js"></script>
 </body>
 </html>
