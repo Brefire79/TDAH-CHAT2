@@ -220,7 +220,10 @@ const bindOnboarding = () => {
 
 const registerSW = () => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js").catch(err => console.warn("SW", err));
+    navigator.serviceWorker
+      .register("/service-worker.js", { updateViaCache: "none" })
+      .then((reg) => reg.update?.())
+      .catch(err => console.warn("SW", err));
   }
 };
 
