@@ -177,6 +177,14 @@ const onboardingSteps = [
   "Escolha 10, 15 ou 20 minutos e aperte Comecar para focar."
 ];
 let onboardingIndex = 0;
+let onboardingTimeout;
+
+const clearOnboardingTimer = () => {
+  if (onboardingTimeout) {
+    clearTimeout(onboardingTimeout);
+    onboardingTimeout = null;
+  }
+};
 
 const updateOnboardingDots = () => {
   el.onboarding.dots.forEach((dot, i) => {
@@ -187,6 +195,8 @@ const updateOnboardingDots = () => {
 const updateOnboardingContent = () => {
   el.onboarding.text.textContent = onboardingSteps[onboardingIndex];
   updateOnboardingDots();
+  clearOnboardingTimer();
+  onboardingTimeout = setTimeout(() => hideOnboarding(), 12000);
 };
 
 const showOnboarding = () => {
@@ -196,6 +206,7 @@ const showOnboarding = () => {
 };
 
 const hideOnboarding = () => {
+  clearOnboardingTimer();
   el.onboarding.wrapper.hidden = true;
   setFlag("onboardingDone", true);
 };
