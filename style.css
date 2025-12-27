@@ -220,33 +220,63 @@ main {
 
 .parent-data { margin-top: 8px; color: var(--muted); font-size: 0.95rem; }
 
-
-.onboarding {
-  position: fixed;
-  inset: 0;
-  background: rgba(12, 28, 63, 0.5);
+.tutorial-panel {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.tutorial-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+.tutorial-close:hover { background: var(--accent-soft); }
+.tutorial-close:focus-visible { outline: var(--focus); outline-offset: 2px; }
+.tutorial-content { display: grid; gap: 12px; text-align: center; }
+.tutorial__visual {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
   display: grid;
   place-items: center;
-  padding: 16px;
-  z-index: 20;
+  background: linear-gradient(135deg, var(--accent-soft), #ffffff);
+  font-size: 40px;
+  margin: 0 auto;
+  animation: floaty 6s ease-in-out infinite;
+  position: relative;
 }
-.onboarding__card {
-  background: var(--card);
-  color: var(--text);
-  border-radius: 18px;
-  padding: 20px;
-  width: min(420px, 100%);
-  box-shadow: var(--shadow);
-  display: grid;
-  gap: 12px;
+.tutorial__visual::after {
+  content: "";
+  width: 120px;
+  height: 120px;
+  border-radius: 32px;
+  position: absolute;
+  background: radial-gradient(circle, rgba(10,79,163,0.08) 0%, rgba(10,79,163,0) 70%);
+  z-index: -1;
 }
-.onboarding__steps { display: flex; gap: 8px; align-items: center; }
+@keyframes floaty {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+.tutorial__steps { display: flex; gap: 8px; justify-content: center; }
 .dot {
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--accent-soft);
 }
 .dot--active { background: var(--accent); }
-.onboarding__actions { display: flex; justify-content: space-between; gap: 8px; }
+.tutorial__actions { display: flex; justify-content: space-between; gap: 8px; }
+
 @media (min-width: 768px) {
   main { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
   .card { padding: 18px; }

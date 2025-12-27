@@ -12,28 +12,31 @@
   <header class="topbar" role="banner">
     <div class="brand" aria-label="Nome do aplicativo">Rotina Calma</div>
     <div class="topbar__actions">
+      <button class="btn ghost" id="btn-tutorial" aria-label="Ver como usar">Como usar</button>
       <button class="btn ghost" id="btn-font" aria-pressed="false" aria-label="Alternar fonte grande">Fonte A+</button>
       <button class="btn ghost" id="btn-accessibility" aria-pressed="false" aria-label="Alternar alto contraste">Contraste</button>
     </div>
   </header>
 
-  <section id="onboarding" class="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" hidden>
-    <div class="onboarding__card">
-      <h2 id="onboarding-title">Bem-vindo</h2>
-      <p id="onboarding-text" class="muted">Vamos mostrar rapidinho como usar.</p>
-      <div class="onboarding__steps" aria-label="Passos do onboarding">
-        <span class="dot" data-step="0" aria-hidden="true"></span>
-        <span class="dot" data-step="1" aria-hidden="true"></span>
-        <span class="dot" data-step="2" aria-hidden="true"></span>
-      </div>
-      <div class="onboarding__actions">
-        <button class="btn ghost" id="onboarding-skip" type="button" aria-label="Pular onboarding">Pular</button>
-        <button class="btn primary" id="onboarding-next" type="button" aria-label="Avancar">Avancar</button>
-      </div>
-    </div>
-  </section>
-
   <main id="app" aria-live="polite">
+    <section id="tutorial" class="tutorial-panel" aria-labelledby="tutorial-title" hidden>
+      <button class="tutorial-close" id="tutorial-close" type="button" aria-label="Fechar tutorial">✕</button>
+      <div class="tutorial-content">
+        <div id="tutorial-visual" class="tutorial__visual" aria-hidden="true">🌟</div>
+        <h3 id="tutorial-title">Como usar</h3>
+        <p id="tutorial-text" class="muted">Vamos mostrar rapidinho.</p>
+        <div class="tutorial__steps" aria-label="Passos do tutorial">
+          <span class="dot" data-step="0" aria-hidden="true"></span>
+          <span class="dot" data-step="1" aria-hidden="true"></span>
+          <span class="dot" data-step="2" aria-hidden="true"></span>
+        </div>
+        <div class="tutorial__actions">
+          <button class="btn ghost" id="tutorial-prev" type="button" aria-label="Anterior">Anterior</button>
+          <button class="btn primary" id="tutorial-next" type="button" aria-label="Proximo">Proximo</button>
+        </div>
+      </div>
+    </section>
+
     <section class="card" aria-label="Perfil da crianca">
       <header class="card__header">
         <div class="avatar" aria-hidden="true" id="avatar-display">🙂</div>

@@ -63,12 +63,15 @@ const el = {
   toast: document.getElementById("toast"),
   accessibility: document.getElementById("btn-accessibility"),
   fontButton: document.getElementById("btn-font"),
-  onboarding: {
-    wrapper: document.getElementById("onboarding"),
-    text: document.getElementById("onboarding-text"),
-    dots: document.querySelectorAll(".onboarding__steps .dot"),
-    next: document.getElementById("onboarding-next"),
-    skip: document.getElementById("onboarding-skip")
+  tutorialBtn: document.getElementById("btn-tutorial"),
+  tutorial: {
+    wrapper: document.getElementById("tutorial"),
+    close: document.getElementById("tutorial-close"),
+    visual: document.getElementById("tutorial-visual"),
+    text: document.getElementById("tutorial-text"),
+    dots: document.querySelectorAll(".tutorial__steps .dot"),
+    prev: document.getElementById("tutorial-prev"),
+    next: document.getElementById("tutorial-next")
   }
 };
 
@@ -171,61 +174,57 @@ const bindParent = () => {
   });
 };
 
-const onboardingSteps = [
-  "Use o app para guiar seu dia, sem pressa.",
-  "Veja manha / tarde / noite e conclua tarefas simples.",
-  "Escolha 10, 15 ou 20 minutos e aperte Comecar para focar."
+const tutorialSteps = [
+  { text: "Use o app para guiar seu dia, sem pressa.", visual: "🗓️" },
+  { text: "Veja manha, tarde e noite e conclua tarefas simples.", visual: "✅" },
+  { text: "Escolha 10, 15 ou 20 minutos e toque em Comecar.", visual: "⏱️" }
 ];
-let onboardingIndex = 0;
-let onboardingTimeout;
+let tutorialIndex = 0;
 
-const clearOnboardingTimer = () => {
-  if (onboardingTimeout) {
-    clearTimeout(onboardingTimeout);
-    onboardingTimeout = null;
-  }
-};
-
-const updateOnboardingDots = () => {
-  el.onboarding.dots.forEach((dot, i) => {
-    dot.classList.toggle("dot--active", i === onboardingIndex);
+const updateTutorialDots = () => {
+  el.tutorial.dots.forEach((dot, i) => {
+    dot.classList.toggle("dot--active", i === tutorialIndex);
   });
 };
 
-const updateOnboardingContent = () => {
-  el.onboarding.text.textContent = onboardingSteps[onboardingIndex];
-  updateOnboardingDots();
-  clearOnboardingTimer();
-  onboardingTimeout = setTimeout(() => hideOnboarding(), 12000);
+const updateTutorialContent = () => {
+  const step = tutorialSteps[tutorialIndex];
+  el.tutorial.text.textContent = step.text;
+  if (el.tutorial.visual) el.tutorial.visual.textContent = step.visual;
+  updateTutorialDots();
+  el.tutorial.prev.disabled = tutorialIndex === 0;
+  el.tutorial.next.textContent = tutorialIndex === tutorialSteps.length - 1 ? "Entendi" : "Proximo";
 };
 
-const showOnboarding = () => {
-  onboardingIndex = 0;
-  el.onboarding.wrapper.hidden = false;
-  updateOnboardingContent();
+const showTutorial = () => {
+  tutorialIndex = 0;
+  el.tutorial.wrapper.hidden = false;
+  updateTutorialContent();
 };
 
-const hideOnboarding = () => {
-  clearOnboardingTimer();
-  el.onboarding.wrapper.hidden = true;
-  setFlag("onboardingDone", true);
+const hideTutorial = () => {
+  el.tutorial.wrapper.hidden = true;
 };
 
-const bindOnboarding = () => {
-  el.onboarding.next.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onboardingIndex >= onboardingSteps.length - 1) {
-      hideOnboarding();
+const bindTutorial = () => {
+  el.tutorialBtn.addEventListener("click", () => showTutorial());
+  
+  el.tutorial.close.addEventListener("click", () => hideTutorial());
+  
+  el.tutorial.prev.addEventListener("click", () => {
+    if (tutorialIndex > 0) {
+      tutorialIndex -= 1;
+      updateTutorialContent();
+    }
+  });
+  
+  el.tutorial.next.addEventListener("click", () => {
+    if (tutorialIndex >= tutorialSteps.length - 1) {
+      hideTutorial();
       return;
     }
-    onboardingIndex += 1;
-    updateOnboardingContent();
-  });
-  el.onboarding.skip.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    hideOnboarding();
+    tutorialIndex += 1;
+    updateTutorialContent();
   });
 };
 
@@ -240,8 +239,8 @@ const registerSW = () => {
 
 const bindShortcuts = () => {
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !el.onboarding.wrapper.hidden) {
-      hideOnboarding();
+    if (e.key === "Escape" && !el.tutorial.wrapper.hidden) {
+      hideTutorial();
     }
   });
 };
@@ -257,11 +256,9 @@ function init() {
   routine.bind();
   focus.bind();
   emotions.bind();
-  bindOnboarding();
+  bindTutorial();
   bindShortcuts();
   registerSW();
-
-  if (!getFlag("onboardingDone")) showOnboarding();
 }
 
 window.addEventListener("beforeunload", () => {
