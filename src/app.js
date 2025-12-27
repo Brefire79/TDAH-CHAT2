@@ -201,7 +201,9 @@ const hideOnboarding = () => {
 };
 
 const bindOnboarding = () => {
-  el.onboarding.next.addEventListener("click", () => {
+  el.onboarding.next.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (onboardingIndex >= onboardingSteps.length - 1) {
       hideOnboarding();
       return;
@@ -209,7 +211,11 @@ const bindOnboarding = () => {
     onboardingIndex += 1;
     updateOnboardingContent();
   });
-  el.onboarding.skip.addEventListener("click", hideOnboarding);
+  el.onboarding.skip.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    hideOnboarding();
+  });
 };
 
 const registerSW = () => {
